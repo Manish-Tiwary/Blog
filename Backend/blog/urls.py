@@ -10,5 +10,8 @@ urlpatterns = [
     path('dashboard/delete/<int:pk>/', views.delete_post, name='delete_post'),
     path('<slug:slug>/', views.PostDetail.as_view(), name='post_detail'),
     path('api/posts/', views.api_post_list, name='api_post_list'),
+    path('api/posts/create/', views.api_create_post, name='api_create_post'),
+    path('api/posts/edit/<int:pk>/', views.api_edit_post, name='api_edit_post'),
+    path('api/posts/delete/<int:pk>/', views.api_delete_post, name='api_delete_post'),
     path('api/posts/<slug:slug>/', views.api_post_detail, name='api_post_detail'),
 ]
