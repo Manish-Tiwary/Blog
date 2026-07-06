@@ -1,14 +1,56 @@
 from django.views import generic
 from .models import Post
-
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.admin.views.decorators import staff_member_required
-
 from django.contrib.auth.decorators import login_required
 from .forms import PostForm
-
 from django.http import JsonResponse
 from .models import Post
+
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAdminUser
+from rest_framework.response import Response
+from rest_framework import status
+from django.utils.text import slugify
+
+
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
+def api_create_post(request):
+    title = request.data.get('title')
+    content = request.data.get('content')
+    slug = request.data.get('slug')
+    
+    if not slug:
+        slug = slugify(title)
+        
+    featured_image = request.FILES.get('featured_image')
+
+    post = Post.objects.create(
+        title=title,
+        slug=slug,
+        content=content,
+        author=request.user,
+        featured_image=featured_image
+    )
+    return Response({'message': 'Post created successfully!', 'id': post.id}, status=status.HTTP_201_CREATED)
+
+@api_view(['POST', 'PUT'])
+@permission_classes([IsAdminUser])
+def api_edit_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    
+    post.title = request.data.get('title', post.title)
+    post.slug = request.data.get('slug', post.slug)
+    post.content = request.data.get('content', post.content)
+    
+    if 'featured_image' in request.FILES:
+        post.featured_image = request.FILES['featured_image']
+        
+    post.save()
+    return Response({'message': 'Post updated successfully!'})
+
+
 
 def api_post_list(request):
     posts = Post.objects.order_by('-created_on')
