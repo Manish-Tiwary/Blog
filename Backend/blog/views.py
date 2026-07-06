@@ -50,7 +50,12 @@ def api_edit_post(request, pk):
     post.save()
     return Response({'message': 'Post updated successfully!'})
 
-
+@api_view(['DELETE', 'POST'])
+@permission_classes([IsAdminUser])
+def api_delete_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.delete()
+    return Response({'message': 'Post deleted successfully!'}, status=status.HTTP_200_OK)
 
 def api_post_list(request):
     posts = Post.objects.order_by('-created_on')
