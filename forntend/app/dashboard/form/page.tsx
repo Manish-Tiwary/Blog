@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { authenticatedFetch } from "../../utils/auth";
+import { authenticatedFetch } from "@/utils/authenticatedFetch";
 
 function FormContent() {
   const [title, setTitle] = useState("");
@@ -17,7 +17,7 @@ function FormContent() {
   useEffect(() => {
     // If editId parameter exists, pre-populate state metrics from backend data cache
     if (editId) {
-      fetch("http://127.0.0")
+      fetch("http://127.0.0.1:8000/api/posts/")
         .then((res) => res.json())
         .then((data) => {
           const post = data.find((p) => p.id === parseInt(editId));
@@ -53,8 +53,8 @@ function FormContent() {
     }
 
     const endpoint = editId
-      ? `http://127.0.0edit/${editId}/`
-      : "http://127.0.0create/";
+      ? `http://127.0.0.1:8000/api/posts/edit/${editId}/`
+      : `http://127.0.0.1:8000/api/posts/create/`;
 
     try {
       const res = await authenticatedFetch(endpoint, {

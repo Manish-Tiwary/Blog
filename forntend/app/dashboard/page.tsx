@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { authenticatedFetch } from "../utils/auth";
+import { authenticatedFetch } from "@/utils/authenticatedFetch";
+
 
 export default function Dashboard() {
   const [posts, setPosts] = useState([]);
@@ -15,7 +16,7 @@ export default function Dashboard() {
       return;
     }
 
-    fetch("http://127.0.0")
+    fetch("http://127.0.0.1:8000/api/posts/")
       .then((res) => res.json())
       .then((data) => {
         setPosts(data);
@@ -28,7 +29,7 @@ export default function Dashboard() {
     if (!confirm("Are you completely sure you want to delete this article? This step cannot be undone.")) return;
 
     try {
-      const res = await authenticatedFetch(`http://127.0.0delete/${id}/`, {
+      const res = await authenticatedFetch(`http://127.0.0.1:8000/api/posts/delete/${id}/`, {
         method: "DELETE", // Uses our custom authenticated view routing pathway
       });
 
