@@ -38,6 +38,23 @@ def api_post_detail(request, slug):
     }
     return JsonResponse(data)
 
+# Open blog/views.py and ensure NO decorators are placed right above this block:
+def api_post_list(request):
+    posts = Post.objects.order_by('-created_on')
+    data = []
+    for post in posts:
+        data.append({
+            'id': post.id,
+            'title': post.title,
+            'slug': post.slug,
+            'author': post.author.username,
+            'content': post.content,
+            'featured_image': request.build_absolute_uri(post.featured_image.url) if post.featured_image else None,
+            'created_on': post.created_on.strftime("%B %d, YYYY")
+        })
+    return JsonResponse(data, safe=False)
+
+
 
 @staff_member_required(login_url='admin:login')
 def create_post(request):

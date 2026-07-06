@@ -20,9 +20,9 @@ export default function RootLayout({ children }) {
               <ul className="flex items-center gap-6 font-medium">
                 <li><Link href="/" className="hover:text-[#00adb5] transition-colors">Home</Link></li>
                 <li>
-                  <a href="http://localhost:8000/admin/" target="_blank" rel="noreferrer" className="bg-[#00adb5] hover:bg-cyan-400 text-white font-bold py-2 px-4 rounded transition-all">
-                    Admin Portal
-                  </a>
+                  <Link href="/login" className="bg-[#00adb5] hover:bg-cyan-400 text-white font-bold py-2 px-4 rounded transition-all">
+  Dashboard Login
+</Link>
                 </li>
               </ul>
             </nav>
