@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Control Panel - Manish Blog{% endblock %}
+
+{% block content %}
+<main class="content-container" style="max-width: 1000px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1 class="page-title" style="margin-bottom: 0;">Management Dashboard</h1>
+
+<a href="{% url 'create_post' %}" style="background-color: #00adb5; color: white; padding: 0.6rem 1.2rem; text-decoration: none; border-radius: 4px; font-weight: bold;">+ Write New Article</a>
+
+    </div>
+
+    <div style="background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); overflow: hidden;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+            <thead>
+                <tr style="background-color: #222831; color: white;">
+                    <th style="padding: 1rem;">Cover Image</th>
+                    <th style="padding: 1rem;">Article Title</th>
+                    <th style="padding: 1rem;">Author</th>
+                    <th style="padding: 1rem;">Date Published</th>
+                    <th style="padding: 1rem; text-align: center;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+                <tr style="border-bottom: 1px solid #eee;">
+                    <td style="padding: 1rem;">
+                        {% if post.featured_image %}
+                            <img src="{{ post.featured_image.url }}" style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px;">
+                        {% else %}
+                            <span style="font-size: 0.8rem; color: #aaa;">No Image</span>
+                        {% endif %}
+                    </td>
+                    <td style="padding: 1rem; font-weight: 600;">{{ post.title }}</td>
+                    <td style="padding: 1rem; color: #666;">{{ post.author }}</td>
+                    <td style="padding: 1rem; color: #666;">{{ post.created_on|date:"M d, Y" }}</td>
+                <!-- Inside your loop table cell actions column (around line 34), update the Edit link -->
+<td style="padding: 1rem; text-align: center;">
+    <a href="{% url 'edit_post' post.pk %}" style="color: #00adb5; text-decoration: none; margin-right: 1rem; font-weight: bold;">Edit</a>
+    <a href="{% url 'delete_post' post.pk %}" style="color: #ff2e93; text-decoration: none; font-weight: bold;">Delete</a>
+</td>
+
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" style="padding: 2rem; text-align: center; color: #777;">No articles exist yet inside the database module.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+{% endblock %}
+
+
+

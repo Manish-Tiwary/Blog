@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign In - Manish Blog{% endblock %}
+
+{% block content %}
+<main class="content-container" style="max-width: 450px;">
+    <div class="post-card" style="padding: 2.5rem; border-radius: 8px;">
+        <h2 style="margin-bottom: 1.5rem; color: #222831; text-align: center;">Account Login</h2>
+        
+        <form method="POST">
+            {% csrf_token %}
+            
+            {% if form.errors %}
+                <p style="color: #ff2e93; font-size: 0.9rem; text-align: center; margin-bottom: 1rem;">
+                    Invalid username or password. Please try again.
+                </p>
+            {% endif %}
+
+            <div style="margin-bottom: 1.2rem;">
+                <label style="display: block; margin-bottom: 0.4rem; font-weight: 600; color: #555;">Username</label>
+                <input type="text" name="username" required style="width: 100%; padding: 0.6rem; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem;">
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.4rem; font-weight: 600; color: #555;">Password</label>
+                <input type="password" name="password" required style="width: 100%; padding: 0.6rem; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem;">
+            </div>
+
+            <button type="submit" style="width: 100%; background-color: #00adb5; color: white; padding: 0.7rem; border: none; border-radius: 4px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: background 0.2s;">
+                Sign In
+            </button>
+        </form>
+    </div>
+</main>
+{% endblock %}

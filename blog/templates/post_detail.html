@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    /* Main container to center the entire article layout on the page */
+    .article-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centers all child elements horizontally */
+        max-width: 800px;    /* Prevents lines from getting too long/hard to read */
+        margin: 0 auto;      /* Centers the container itself on the screen */
+        padding: 20px;
+        font-family: sans-serif; /* Fallback font */
+    }
+
+    /* Text elements align nicely */
+    .article-title {
+        text-align: center;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .article-meta {
+        text-align: center;
+        color: #666;
+        margin-bottom: 30px;
+        font-size: 0.9rem;
+    }
+
+    /* Centers the image and keeps it responsive across device sizes */
+    .article-image {
+        display: block;
+        max-width: 100%;     /* Scales down perfectly on mobile */
+        height: auto;
+        border-radius: 8px;  /* Optional: rounds the corners slightly */
+        margin: 0 auto 30px auto; /* Ensures centering and adds bottom spacing */
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Optional: subtle shadow */
+    }
+
+    /* Left-aligns body text for reading comfort, while container keeps it centered */
+    .article-body {
+        width: 100%;
+        line-height: 1.6;
+        color: #222;
+        font-size: 1.1rem;
+        margin-bottom: 40px;
+        text-align: left;    /* Standard left-alignment for long paragraphs */
+    }
+
+    /* Bottom back navigation link styling */
+    .back-link {
+        align-self: flex-start; /* Keeps the link on the left side under the content */
+        text-decoration: none;
+        color: #0066cc;
+        font-weight: bold;
+    }
+    
+    .back-link:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<main class="article-container">
+    <h1 class="article-title">{{ post.title }}</h1>
+    <div class="article-meta">
+        Published: {{ post.created_on|date:"F d, Y" }} by <strong>{{ post.author }}</strong>
+    </div>
+    
+    {% if post.featured_image %}
+        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="article-image">
+    {% endif %}
+    
+    <div class="article-body">
+        {{ post.content|linebreaks }}
+    </div>
+    <a href="{% url 'home' %}" class="back-link">&larr; Back to Home Feed</a>
+</main>
+{% endblock %}

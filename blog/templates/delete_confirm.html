@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="content-container">
+    <div class="post-card" style="text-align: center; padding: 3rem;">
+        <h2 style="margin-bottom: 1rem; color: #222831;">Are you absolutely sure?</h2>
+        <p style="margin-bottom: 2rem; color: #666;">You are about to permanently delete the article: <strong>"{{ post.title }}"</strong>. This step cannot be undone.</p>
+        
+        <form method="POST">
+    {% csrf_token %}
+    <button type="submit" style="background-color: #ff2e93; color: white; padding: 0.6rem 1.5rem; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-right: 1rem;">Confirm Delete</button>
+    <a href="{% url 'admin_dashboard' %}" style="background-color: #777; color: white; padding: 0.6rem 1.5rem; text-decoration: none; border-radius: 4px; font-weight: bold;">Cancel</a>
+</form>
+        
+    </div>
+</main>
+{% endblock %}

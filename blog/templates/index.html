@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- Post Feed Grid -->
+    <main class="content-container">
+        <h1 class="page-title">Latest Articles</h1>
+        {% for post in post_list %}
+            <article class="post-card">
+                {% if post.featured_image %}
+                    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="post-image">
+                {% endif %}
+                <h2><a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a></h2>
+                <div class="post-meta">By {{ post.author }} | {{ post.created_on|date:"F d, Y" }}</div>
+            </article>
+        {% empty %}
+            <p>No posts published yet!</p>
+        {% endfor %}
+    </main>
+{% endblock %}

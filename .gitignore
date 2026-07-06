@@ -1,0 +1,49 @@
+# ============================================================================
+# Django Core & Databases
+# ============================================================================
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+db.sqlite3-journal
+local_settings.py
+
+# ============================================================================
+# Environments & Secrets (Never commit credentials)
+# ============================================================================
+.env
+.venv
+venv/
+ENV/
+env/
+*.env
+
+# ============================================================================
+# Django Media & Collected Static Files
+# ============================================================================
+# Ignore user-uploaded media files
+media/
+
+# Ignore collected static assets (uncomment if you use collectstatic on production)
+# static/
+# static_cdn/
+
+# ============================================================================
+# Python & Packaging Artifacts
+# ============================================================================
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+htmlcov/
+.coverage
+.cache/
+
+# ============================================================================
+# IDEs and OS Specific Files
+# ============================================================================
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

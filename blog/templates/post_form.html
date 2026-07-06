@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} - Manish Blog{% endblock %}
+
+{% block content %}
+<main class="content-container" style="max-width: 650px;">
+    <div class="post-card" style="padding: 2.5rem; border-radius: 8px;">
+        <h2 style="margin-bottom: 2rem; color: #222831; border-bottom: 2px solid #eee; padding-bottom: 0.5rem;">{{ title }}</h2>
+        
+        <!-- enctype is STRICTLY REQUIRED for handling file/image uploads -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #444;">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <span style="color: #ff2e93; font-size: 0.85rem;">{{ field.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <button type="submit" style="background-color: #00adb5; color: white; padding: 0.7rem 2rem; border: none; border-radius: 4px; font-size: 1rem; font-weight: bold; cursor: pointer;">Save Post</button>
+                <a href="{% url 'admin_dashboard' %}" style="background-color: #777; color: white; padding: 0.7rem 2rem; text-decoration: none; border-radius: 4px; font-size: 1rem; font-weight: bold; text-align: center;">Cancel</a>
+            </div>
+        </form>
+    </div>
+</main>
+
+<!-- Injected layout styling overrides for our form fields -->
+<style>
+    .form-input {
+        width: 100%;
+        padding: 0.7rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+        font-family: inherit;
+    }
+    .form-input:focus {
+        border-color: #00adb5;
+        outline: none;
+    }
+    .textarea {
+        height: 200px;
+        resize: vertical;
+    }
+</style>
+{% endblock %}
