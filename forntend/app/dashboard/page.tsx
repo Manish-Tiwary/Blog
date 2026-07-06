@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { authenticatedFetch } from "@/utils/authenticatedFetch"; // adjust path to match your project
 
 export default function Dashboard() {
   const [posts, setPosts] = useState([]);
@@ -15,10 +16,16 @@ export default function Dashboard() {
       return;
     }
 
-    fetch("http://127.0.0")
-      .then((res) => res.json())
+    authenticatedFetch("http://127.0.0.1:8000/api/posts/")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to load posts");
+        return res.json();
+      })
       .then((data) => {
         setPosts(data);
+        setLoading(false);
+      })
+      .catch(() => {
         setLoading(false);
       });
   }, [router]);
