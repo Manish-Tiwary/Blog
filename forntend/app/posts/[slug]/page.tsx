@@ -1,14 +1,17 @@
 import Link from "next/link";
 
-async function getSinglePost(slug) {
-  const res = await fetch(`http://127.0.0{slug}/`, { cache: "no-store" });
-  if (!res.ok) return null;
-  return res.json();
+// 1. Data Fetcher leveraging your explicit Django API path layout
+async function getSinglePost(slug: string) {
+    const res = await fetch(`http://127.0.0.1:8000/api/posts/${slug}/`, { cache: "no-store" });
+    if (!res.ok) return null;
+    return res.json();
 }
 
-export default async function PostDetail({ params }) {
-  const { slug } = params;
-  const post = await getSinglePost(slug);
+// 2. Main Page Render Component 
+export default async function PostDetail({ params }: { params: Promise<{ slug: string }> }) {
+  // Await the dynamic parameters array from Next.js
+  const resolvedParams = await params;
+  const post = await getSinglePost(resolvedParams.slug);
 
   if (!post) {
     return (
@@ -35,7 +38,6 @@ export default async function PostDetail({ params }) {
           />
         )}
 
-        {/* Text Area Parser Layout Wrapper block node */}
         <div className="prose max-w-none text-slate-700 text-lg leading-relaxed whitespace-pre-wrap">
           {post.content}
         </div>
