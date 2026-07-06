@@ -1,7 +1,14 @@
 import Link from "next/link";
 
+// async function getBlogPosts() {
+//   const res = await fetch("http://127.0.0", { cache: "no-store" });
+//   if (!res.ok) throw new Error("Failed to pull backend post parameters");
+//   return res.json();
+// }
 async function getBlogPosts() {
-  const res = await fetch("http://127.0.0", { cache: "no-store" });
+  // Ensure the string contains the exact port and endpoint path:
+  const res = await fetch("http://127.0.0.1:8000/api/posts/", { cache: "no-store" });
+  
   if (!res.ok) throw new Error("Failed to pull backend post parameters");
   return res.json();
 }
