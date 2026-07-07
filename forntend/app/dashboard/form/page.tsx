@@ -2,7 +2,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { authenticatedFetch } from "@/utils/authenticatedFetch";
-import RichTextEditor from "@/components/RichTextEditor";
+import RichTextEditor from "../../components/RichTextEditor";
 
 function FormContent() {
   const [title, setTitle] = useState("");
