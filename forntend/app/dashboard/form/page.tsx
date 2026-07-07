@@ -2,6 +2,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { authenticatedFetch } from "@/utils/authenticatedFetch";
+import RichTextEditor from "@/components/RichTextEditor";
 
 function FormContent() {
   const [title, setTitle] = useState("");
@@ -9,7 +10,7 @@ function FormContent() {
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const editId = searchParams.get("edit"); // Checks for an '?edit=ID' query suffix
@@ -47,7 +48,7 @@ function FormContent() {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("slug", slug);
-    formData.append("content", content);
+    formData.append("content", content); // HTML string from the rich text editor
     if (image) {
       formData.append("featured_image", image);
     }
@@ -75,10 +76,10 @@ function FormContent() {
   };
 
   return (
-    <main className="max-w-2xl mx-auto px-4 py-12">
+    <main className="max-w-3xl mx-auto px-4 py-12">
       <div className="bg-white p-8 rounded-lg shadow-sm border border-slate-100">
         <h1 className="text-3xl font-extrabold text-slate-900 mb-6">
-          {editId ? "✏️ Edit Article Layout" : "✍️ Write New Article"}
+          {editId ? "✏️ Edit Article" : "✍️ Write New Article"}
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -112,18 +113,14 @@ function FormContent() {
               onChange={(e) => setImage(e.target.files[0])}
               className="w-full text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200"
             />
+            <p className="text-xs text-slate-400 mt-1">
+              This is the hero banner at the top of the article — separate from any images you insert into the body below.
+            </p>
           </div>
 
           <div>
-            <label className="block text-sm font-bold text-slate-700 mb-2">Article Body Text Content</label>
-            <textarea
-              required
-              rows={10}
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="Supports structural text formatting paragraphs and Markdown strings..."
-              className="w-full p-3 border border-slate-200 rounded-md focus:outline-none focus:border-[#00adb5] font-sans"
-            />
+            <label className="block text-sm font-bold text-slate-700 mb-2">Article Body</label>
+            <RichTextEditor value={content} onChange={setContent} />
           </div>
 
           <div className="flex gap-4 pt-2">
