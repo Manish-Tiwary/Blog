@@ -6,12 +6,32 @@ from django.contrib.auth.decorators import login_required
 from .forms import PostForm
 from django.http import JsonResponse
 from .models import Post
-
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework import status
 from django.utils.text import slugify
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+
+
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
+def api_upload_image(request):
+   
+    image_file = request.FILES.get('image')
+    if not image_file:
+        return Response({'error': 'No image file provided.'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+    if not image_file.content_type or not image_file.content_type.startswith('image/'):
+        return Response({'error': 'File must be an image.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    save_path = f'blog_images/inline/{image_file.name}'
+    saved_name = default_storage.save(save_path, ContentFile(image_file.read()))
+    url = request.build_absolute_uri(default_storage.url(saved_name))
+
+    return Response({'url': url}, status=status.HTTP_201_CREATED)
 
 
 @api_view(['POST'])
@@ -114,7 +134,7 @@ def edit_post(request, pk):
 
 @staff_member_required(login_url='admin:login')
 def admin_dashboard(request):
-    # Fetch all articles ordered by the latest published date
+   
     posts = Post.objects.order_by('-created_on')
     return render(request, 'dashboard.html', {'posts': posts})
 
@@ -131,7 +151,7 @@ class PostList(generic.ListView):
     queryset = Post.objects.order_by('-created_on')
     template_name = 'index.html'
 
-# Verify this class name is written exactly as "PostDetail"
+
 class PostDetail(generic.DetailView):
     model = Post
     template_name = 'post_detail.html'
