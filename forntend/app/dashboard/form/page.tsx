@@ -13,10 +13,10 @@ function FormContent() {
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  const editId = searchParams.get("edit"); // Checks for an '?edit=ID' query suffix
+  const editId = searchParams.get("edit"); 
 
   useEffect(() => {
-    // If editId parameter exists, pre-populate state metrics from backend data cache
+    
     if (editId) {
       fetch("http://127.0.0.1:8000/api/posts/")
         .then((res) => res.json())

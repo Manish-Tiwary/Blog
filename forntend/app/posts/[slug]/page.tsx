@@ -23,8 +23,6 @@ export default async function PostDetail({ params }: { params: Promise<{ slug: s
     );
   }
 
-  // The editor stores rich HTML (headings, bold, inline images, links). Sanitize
-  // before injecting it, since this is user-authored content rendered as raw markup.
   const safeContent = DOMPurify.sanitize(post.content, {
     ALLOWED_TAGS: [
       "p", "br", "strong", "em", "s", "u",
@@ -52,11 +50,7 @@ export default async function PostDetail({ params }: { params: Promise<{ slug: s
             Published: {post.created_on} by <span className="text-slate-600">{post.author}</span>
           </div>
 
-          {/*
-            Tailwind Typography's `prose` class styles raw HTML (headings, lists,
-            links, images, blockquotes) into readable article formatting.
-            Requires @tailwindcss/typography — see setup notes below.
-          */}
+
           <div
             className="prose prose-slate prose-lg max-w-none prose-img:rounded-lg prose-a:text-[#00adb5] prose-a:no-underline hover:prose-a:underline"
             dangerouslySetInnerHTML={{ __html: safeContent }}

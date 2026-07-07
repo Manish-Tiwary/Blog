@@ -23,15 +23,15 @@ export default function LoginPage() {
         throw new Error("Invalid username or password configuration.");
       }
 
-      const data = await res.json();
-      
-      // Save your authorization token keys securely in the browser workspace
-      localStorage.setItem("access_token", data.access);
-      localStorage.setItem("refresh_token", data.refresh);
-      localStorage.setItem("username", username);
+     
+const data = await res.json();
 
-      // Forward user over into their management panel dashboard
-      router.push("/dashboard");
+
+localStorage.setItem("access_token", data.access);
+localStorage.setItem("refresh_token", data.refresh);
+localStorage.setItem("username", username);
+
+window.location.href = "/dashboard";
     } catch (err) {
       setError(err.message);
     }
