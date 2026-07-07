@@ -1,22 +1,27 @@
-"use client"; // This marks it as a Client Component
+"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
-  
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const pathname = usePathname(); 
 
   useEffect(() => {
-
-    const token = localStorage.getItem("token"); 
+   
+    const token = localStorage.getItem("access_token");
     setIsLoggedIn(!!token);
-  }, []);
+  }, [pathname]); 
 
   const handleLogout = () => {
-
-    localStorage.removeItem("token");
+  
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("username");
+    
     setIsLoggedIn(false);
+    
 
     window.location.href = "/";
   };
@@ -33,7 +38,7 @@ export default function Navbar() {
           {isLoggedIn ? (
             <button
               onClick={handleLogout}
-              className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition-all"
+              className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition-all cursor-pointer"
             >
               Logout
             </button>
